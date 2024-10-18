@@ -4,13 +4,17 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.akshar.cryptotracker.crypto.presentation.coin_list.CoinListScreen
+import com.akshar.cryptotracker.crypto.presentation.coin_list.CoinListState
+import com.akshar.cryptotracker.crypto.presentation.coin_list.components.previewCoin
 import com.akshar.cryptotracker.ui.theme.CryptoTrackerTheme
 
 class MainActivity : ComponentActivity() {
@@ -20,9 +24,15 @@ class MainActivity : ComponentActivity() {
         setContent {
             CryptoTrackerTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
+                    CoinListScreen(
+                        state = CoinListState(
+                            coins = (1..100).map {
+                                previewCoin.copy(id = it.toString())
+                            }
+                        ),
+                        modifier = Modifier
+                            .background(MaterialTheme.colorScheme.background)
+                            .padding(innerPadding)
                     )
                 }
             }
@@ -30,18 +40,10 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
 
 @Preview(showBackground = true)
 @Composable
 fun GreetingPreview() {
     CryptoTrackerTheme {
-        Greeting("Android")
     }
 }
